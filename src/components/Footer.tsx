@@ -1,4 +1,5 @@
 import { MapPin, Phone, Clock, Mail } from 'lucide-react';
+import logo from '@/assets/savanna-kitchen-logo.png';
 
 const Footer = () => {
   return (
@@ -7,8 +8,8 @@ const Footer = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
           {/* Brand */}
           <div>
-            <div className="flex items-center gap-2 mb-4">
-              <span className="text-2xl">🌿</span>
+            <div className="flex items-center gap-3 mb-4">
+              <img src={logo} alt="Savanna Kitchen" className="h-12 w-12 object-contain" />
               <h3 className="font-display text-xl font-bold">
                 Savanna <span className="text-primary">Kitchen</span>
               </h3>
@@ -68,18 +69,18 @@ const Footer = () => {
                 </a>
               </li>
               <li>
-                <a href="#about" className="text-background/70 hover:text-primary transition-colors text-sm">
-                  About Us
+                <a href="#reviews" className="text-background/70 hover:text-primary transition-colors text-sm">
+                  Reviews
                 </a>
               </li>
               <li>
-                <a href="#" className="text-background/70 hover:text-primary transition-colors text-sm">
+                <a href="#reservations" className="text-background/70 hover:text-primary transition-colors text-sm">
                   Reservations
                 </a>
               </li>
               <li>
-                <a href="#" className="text-background/70 hover:text-primary transition-colors text-sm">
-                  Catering Services
+                <a href="#contact" className="text-background/70 hover:text-primary transition-colors text-sm">
+                  Contact
                 </a>
               </li>
             </ul>

@@ -8,6 +8,7 @@ import { SheetHeader, SheetTitle, SheetClose } from '@/components/ui/sheet';
 import { Separator } from '@/components/ui/separator';
 import { toast } from 'sonner';
 import { getImageForDish } from '@/lib/foodImages';
+import { supabase } from '@/integrations/supabase/client';
 
 const CartSheet = () => {
   const navigate = useNavigate();
@@ -19,6 +20,33 @@ const CartSheet = () => {
     return `KSh ${price.toLocaleString()}`;
   };
 
+  const sendOrderNotification = async (orderId: string, customerEmail: string, customerName: string) => {
+    try {
+      const { error } = await supabase.functions.invoke('send-notification', {
+        body: {
+          type: 'order',
+          customerEmail,
+          customerName,
+          details: {
+            orderId,
+            items: items.map(item => ({
+              name: item.name,
+              quantity: item.quantity,
+              price: item.price,
+            })),
+            totalAmount: Math.round(totalPrice * 1.1),
+          },
+        },
+      });
+      
+      if (error) {
+        console.error('Failed to send notification:', error);
+      }
+    } catch (error) {
+      console.error('Failed to send notification:', error);
+    }
+  };
+
   const handleCheckout = async () => {
     if (!user) {
       toast.error('Please sign in to place an order');
@@ -27,19 +55,26 @@ const CartSheet = () => {
     }
 
     try {
-      await createOrder.mutateAsync({
+      const order = await createOrder.mutateAsync({
         items: items.map(item => ({
           id: item.id,
           name: item.name,
           price: item.price,
           quantity: item.quantity,
         })),
-        totalAmount: Math.round(totalPrice * 1.1), // Including service fee
+        totalAmount: Math.round(totalPrice * 1.1),
       });
+      
+      // Send email notification
+      await sendOrderNotification(
+        order.id,
+        user.email || '',
+        user.user_metadata?.full_name || user.email?.split('@')[0] || 'Customer'
+      );
       
       clearCart();
       toast.success('Order placed successfully!', {
-        description: 'You can track your order in your profile.',
+        description: 'You will receive a confirmation email shortly.',
       });
     } catch (error) {
       toast.error('Failed to place order. Please try again.');

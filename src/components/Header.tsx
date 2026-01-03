@@ -13,6 +13,8 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import CartSheet from './CartSheet';
+import ThemeToggle from './ThemeToggle';
+import logo from '@/assets/savanna-kitchen-logo.png';
 
 const Header = () => {
   const { totalItems } = useCart();
@@ -31,7 +33,7 @@ const Header = () => {
         <div className="flex items-center justify-between h-16 md:h-20">
           {/* Logo */}
           <Link to="/" className="flex items-center gap-2">
-            <span className="text-2xl">🌿</span>
+            <img src={logo} alt="Savanna Kitchen" className="h-10 w-10 md:h-12 md:w-12 object-contain" />
             <h1 className="font-display text-xl md:text-2xl font-bold text-foreground">
               Savanna <span className="text-primary">Kitchen</span>
             </h1>
@@ -41,6 +43,9 @@ const Header = () => {
           <nav className="hidden md:flex items-center gap-8">
             <a href="#menu" className="text-foreground/80 hover:text-primary transition-colors font-medium">
               Menu
+            </a>
+            <a href="#reviews" className="text-foreground/80 hover:text-primary transition-colors font-medium">
+              Reviews
             </a>
             <a href="#reservations" className="text-foreground/80 hover:text-primary transition-colors font-medium">
               Reservations
@@ -52,6 +57,8 @@ const Header = () => {
 
           {/* Cart & Auth */}
           <div className="flex items-center gap-2">
+            <ThemeToggle />
+            
             <Sheet>
               <SheetTrigger asChild>
                 <Button variant="ghost" size="icon" className="relative">
@@ -122,6 +129,13 @@ const Header = () => {
                 onClick={() => setMobileMenuOpen(false)}
               >
                 Menu
+              </a>
+              <a
+                href="#reviews"
+                className="text-foreground/80 hover:text-primary transition-colors font-medium"
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                Reviews
               </a>
               <a
                 href="#reservations"
