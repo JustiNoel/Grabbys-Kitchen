@@ -14,6 +14,7 @@ import { toast } from 'sonner';
 import { format } from 'date-fns';
 import { CalendarIcon, Clock, Users, Loader2 } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { supabase } from '@/integrations/supabase/client';
 
 const timeSlots = [
   '11:00', '11:30', '12:00', '12:30', '13:00', '13:30',
@@ -32,6 +33,30 @@ const ReservationForm = () => {
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
   const [specialRequests, setSpecialRequests] = useState('');
+
+  const sendReservationNotification = async () => {
+    try {
+      const { error } = await supabase.functions.invoke('send-notification', {
+        body: {
+          type: 'reservation',
+          customerEmail: email,
+          customerName: name,
+          details: {
+            reservationDate: date ? format(date, 'PPP') : '',
+            reservationTime: time,
+            numberOfGuests: parseInt(guests),
+            specialRequests,
+          },
+        },
+      });
+      
+      if (error) {
+        console.error('Failed to send notification:', error);
+      }
+    } catch (error) {
+      console.error('Failed to send notification:', error);
+    }
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -58,7 +83,13 @@ const ReservationForm = () => {
         specialRequests,
       });
       
-      toast.success('Reservation submitted successfully!');
+      // Send email notification
+      await sendReservationNotification();
+      
+      toast.success('Reservation submitted successfully!', {
+        description: 'You will receive a confirmation email shortly.',
+      });
+      
       // Reset form
       setDate(undefined);
       setTime('');
