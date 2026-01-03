@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
-import { useMenuItems } from '@/hooks/useMenuItems';
-import { menuItems as fallbackMenuItems, categories } from '@/data/menuData';
+import { useMenuItems, categories } from '@/hooks/useMenuItems';
+import { menuItems as fallbackMenuItems } from '@/data/menuData';
 import FoodCard, { FoodCardItem } from './FoodCard';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
