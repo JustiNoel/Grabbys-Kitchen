@@ -32,10 +32,10 @@ export const useMenuItems = () => {
 };
 
 export const categories = [
-  { id: 'all', name: 'All', icon: '🍽️' },
-  { id: 'mains', name: 'Main Dishes', icon: '🥘' },
+  { id: 'all', name: 'All Items', icon: '🍽️' },
+  { id: 'mains', name: 'Main Dishes', icon: '🍖' },
   { id: 'sides', name: 'Sides', icon: '🥗' },
   { id: 'snacks', name: 'Snacks', icon: '🥟' },
-  { id: 'beverages', name: 'Beverages', icon: '☕' },
-  { id: 'desserts', name: 'Desserts', icon: '🍰' },
+  { id: 'beverages', name: 'Beverages', icon: '🍹' },
+  { id: 'desserts', name: 'Desserts', icon: '🍨' },
 ];
