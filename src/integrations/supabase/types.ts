@@ -217,7 +217,9 @@ export type Database = {
       }
       orders: {
         Row: {
+          assigned_at: string | null
           created_at: string
+          delivered_at: string | null
           delivery_address: string | null
           delivery_instructions: string | null
           delivery_latitude: number | null
@@ -227,13 +229,17 @@ export type Database = {
           order_type: string | null
           payment_method: string | null
           payment_status: string | null
+          picked_up_at: string | null
+          rider_id: string | null
           status: string
           total_amount: number
           updated_at: string
           user_id: string | null
         }
         Insert: {
+          assigned_at?: string | null
           created_at?: string
+          delivered_at?: string | null
           delivery_address?: string | null
           delivery_instructions?: string | null
           delivery_latitude?: number | null
@@ -243,13 +249,17 @@ export type Database = {
           order_type?: string | null
           payment_method?: string | null
           payment_status?: string | null
+          picked_up_at?: string | null
+          rider_id?: string | null
           status?: string
           total_amount: number
           updated_at?: string
           user_id?: string | null
         }
         Update: {
+          assigned_at?: string | null
           created_at?: string
+          delivered_at?: string | null
           delivery_address?: string | null
           delivery_instructions?: string | null
           delivery_latitude?: number | null
@@ -259,12 +269,22 @@ export type Database = {
           order_type?: string | null
           payment_method?: string | null
           payment_status?: string | null
+          picked_up_at?: string | null
+          rider_id?: string | null
           status?: string
           total_amount?: number
           updated_at?: string
           user_id?: string | null
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "orders_rider_id_fkey"
+            columns: ["rider_id"]
+            isOneToOne: false
+            referencedRelation: "riders"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       profiles: {
         Row: {
@@ -365,6 +385,42 @@ export type Database = {
           rating?: number
           reviewer_name?: string
           user_id?: string | null
+        }
+        Relationships: []
+      }
+      riders: {
+        Row: {
+          created_at: string | null
+          current_latitude: number | null
+          current_longitude: number | null
+          id: string
+          is_available: boolean | null
+          phone: string
+          updated_at: string | null
+          user_id: string
+          vehicle_type: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          current_latitude?: number | null
+          current_longitude?: number | null
+          id?: string
+          is_available?: boolean | null
+          phone: string
+          updated_at?: string | null
+          user_id: string
+          vehicle_type?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          current_latitude?: number | null
+          current_longitude?: number | null
+          id?: string
+          is_available?: boolean | null
+          phone?: string
+          updated_at?: string | null
+          user_id?: string
+          vehicle_type?: string | null
         }
         Relationships: []
       }
@@ -532,7 +588,7 @@ export type Database = {
       }
     }
     Enums: {
-      app_role: "admin" | "user"
+      app_role: "admin" | "user" | "rider"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -660,7 +716,7 @@ export type CompositeTypes<
 export const Constants = {
   public: {
     Enums: {
-      app_role: ["admin", "user"],
+      app_role: ["admin", "user", "rider"],
     },
   },
 } as const
