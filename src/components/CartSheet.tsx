@@ -11,7 +11,6 @@ import { Separator } from '@/components/ui/separator';
 import { toast } from 'sonner';
 import { getImageForDish } from '@/lib/foodImages';
 import { supabase } from '@/integrations/supabase/client';
-import PaymentMethodDialog from './PaymentMethodDialog';
 import LocationPicker from './LocationPicker';
 
 interface DeliveryLocation {
@@ -27,7 +26,6 @@ const CartSheet = () => {
   const { user } = useAuth();
   const createOrder = useCreateOrder();
   const addPoints = useAddLoyaltyPoints();
-  const [showPaymentDialog, setShowPaymentDialog] = useState(false);
   const [isProcessing, setIsProcessing] = useState(false);
   const [deliveryLocation, setDeliveryLocation] = useState<DeliveryLocation | null>(null);
 
@@ -35,7 +33,7 @@ const CartSheet = () => {
     return `KSh ${price.toLocaleString()}`;
   };
 
-  const sendOrderNotification = async (orderId: string, customerEmail: string, customerName: string, paymentMethod: string) => {
+  const sendOrderNotification = async (orderId: string, customerEmail: string, customerName: string) => {
     try {
       const { error } = await supabase.functions.invoke('send-notification', {
         body: {
@@ -50,7 +48,6 @@ const CartSheet = () => {
               price: item.price,
             })),
             totalAmount: Math.round(totalPrice * 1.1),
-            paymentMethod,
           },
         },
       });
@@ -63,7 +60,7 @@ const CartSheet = () => {
     }
   };
 
-  const handleCheckoutClick = () => {
+  const handlePlaceOrder = async () => {
     if (!user) {
       toast.error('Please sign in to place an order');
       navigate('/auth');
@@ -73,11 +70,6 @@ const CartSheet = () => {
       toast.error('Please set your delivery location first');
       return;
     }
-    setShowPaymentDialog(true);
-  };
-
-  const handleConfirmOrder = async (paymentMethod: string) => {
-    if (!user) return;
 
     setIsProcessing(true);
     try {
@@ -89,7 +81,6 @@ const CartSheet = () => {
           quantity: item.quantity,
         })),
         totalAmount: Math.round(totalPrice * 1.1),
-        paymentMethod,
       });
       
       // Award loyalty points (1 point per KSh 10 spent)
@@ -111,14 +102,12 @@ const CartSheet = () => {
       await sendOrderNotification(
         order.id,
         user.email || '',
-        user.user_metadata?.full_name || user.email?.split('@')[0] || 'Customer',
-        paymentMethod
+        user.user_metadata?.full_name || user.email?.split('@')[0] || 'Customer'
       );
       
       clearCart();
-      setShowPaymentDialog(false);
       toast.success('Order placed successfully!', {
-        description: `Payment method: ${paymentMethod.replace('_', ' ').toUpperCase()}. You earned ${pointsEarned} loyalty points!`,
+        description: `Your order is being prepared. You earned ${pointsEarned} loyalty points!`,
       });
     } catch (error) {
       toast.error('Failed to place order. Please try again.');
@@ -133,7 +122,7 @@ const CartSheet = () => {
         <ShoppingBag className="h-16 w-16 text-muted-foreground/50 mb-4" />
         <h3 className="font-display text-xl font-semibold mb-2">Your cart is empty</h3>
         <p className="text-muted-foreground text-center">
-          Add some delicious Kenyan dishes to get started!
+          Add some delicious items to get started!
         </p>
       </div>
     );
@@ -215,6 +204,9 @@ const CartSheet = () => {
             <span>Total</span>
             <span className="text-primary">{formatPrice(Math.round(totalPrice * 1.1))}</span>
           </div>
+          <p className="text-xs text-muted-foreground text-center">
+            💵 Pay on delivery (Cash or M-Pesa)
+          </p>
         </div>
 
         <div className="space-y-2">
@@ -222,7 +214,7 @@ const CartSheet = () => {
             <Button 
               className="w-full" 
               size="lg" 
-              onClick={handleCheckoutClick}
+              onClick={handlePlaceOrder}
               disabled={createOrder.isPending || isProcessing}
             >
               {createOrder.isPending || isProcessing ? (
@@ -231,7 +223,7 @@ const CartSheet = () => {
                   Processing...
                 </>
               ) : (
-                'Proceed to Payment'
+                'Place Order'
               )}
             </Button>
           </SheetClose>
@@ -246,14 +238,6 @@ const CartSheet = () => {
           </p>
         )}
       </div>
-
-      <PaymentMethodDialog
-        open={showPaymentDialog}
-        onOpenChange={setShowPaymentDialog}
-        onConfirm={handleConfirmOrder}
-        isLoading={isProcessing}
-        totalAmount={Math.round(totalPrice * 1.1)}
-      />
     </div>
   );
 };
