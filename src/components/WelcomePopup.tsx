@@ -10,7 +10,7 @@ const WelcomePopup = () => {
 
   useEffect(() => {
     // Check if user has seen the welcome popup before
-    const hasSeenWelcome = localStorage.getItem('savanna_welcome_shown');
+    const hasSeenWelcome = localStorage.getItem('grabbys_welcome_shown');
     
     if (!hasSeenWelcome) {
       // Show popup after a short delay for better UX
@@ -24,7 +24,7 @@ const WelcomePopup = () => {
 
   const handleClose = () => {
     setIsOpen(false);
-    localStorage.setItem('savanna_welcome_shown', 'true');
+    localStorage.setItem('grabbys_welcome_shown', 'true');
   };
 
   const handleExplore = () => {
@@ -90,7 +90,7 @@ const WelcomePopup = () => {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.3 }}
                 >
-                  Welcome to Savanna Kitchen!
+                  Welcome to Grabbys!
                 </motion.h2>
                 
                 <motion.p

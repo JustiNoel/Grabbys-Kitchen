@@ -3,6 +3,8 @@ import Hero from '@/components/Hero';
 import WelcomeGreeting from '@/components/WelcomeGreeting';
 import WelcomePopup from '@/components/WelcomePopup';
 import AIHelpChat from '@/components/AIHelpChat';
+import FloatingCart from '@/components/FloatingCart';
+import PushNotificationPrompt from '@/components/PushNotificationPrompt';
 import DailyDishes from '@/components/DailyDishes';
 import WeeklySpecials from '@/components/WeeklySpecials';
 import MenuSection from '@/components/MenuSection';
@@ -11,7 +13,6 @@ import ShopSection from '@/components/ShopSection';
 import SpiritsSection from '@/components/SpiritsSection';
 import OrderTracker from '@/components/OrderTracker';
 import DeliveryTracker from '@/components/DeliveryTracker';
-import GallerySection from '@/components/GallerySection';
 import ReviewsSection from '@/components/ReviewsSection';
 import LoyaltyPoints from '@/components/LoyaltyPoints';
 import ReservationForm from '@/components/ReservationForm';
@@ -24,6 +25,8 @@ const Index = () => {
       <WelcomeGreeting />
       <WelcomePopup />
       <AIHelpChat />
+      <FloatingCart />
+      <PushNotificationPrompt />
       <main>
         <Hero />
         <DailyDishes />
@@ -63,7 +66,6 @@ const Index = () => {
         <GrocerySection />
         <ShopSection />
         <SpiritsSection />
-        <GallerySection />
         <section id="loyalty" className="py-16 bg-muted/30">
           <div className="container mx-auto px-4">
             <div className="text-center mb-10">

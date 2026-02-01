@@ -19,7 +19,7 @@ const predefinedResponses: Record<string, string> = {
   loyalty: "Our loyalty program rewards you for every order!\n• Earn 1 point for every KSh 10 spent\n• 100 points = KSh 50 discount\n• 250 points = KSh 150 discount\n• 500 points = KSh 350 discount\n\nYou also earn bonus points for leaving reviews! 🎁",
   payment: "We accept multiple payment methods:\n• M-Pesa - Fast mobile payment\n• Card - Visa/Mastercard\n• Cash on Delivery\n• Mobile Money Transfer\n\nChoose what works best for you! 💳",
   hours: "We're open:\n• Monday - Friday: 7:00 AM - 10:00 PM\n• Saturday: 8:00 AM - 11:00 PM\n• Sunday: 9:00 AM - 9:00 PM\n\nCome visit us anytime! ⏰",
-  location: "📍 Savanna Kitchen\nMoi Avenue, Nairobi CBD\nNear Hilton Hotel\n\nWe also offer delivery within Nairobi! 🚗",
+  location: "📍 Grabbys\nMaseno, Along Siriba Road\nKisumu, Kenya\n\nWe offer delivery within Maseno and surrounding areas! 🚗",
   specials: "Check out our Weekly Specials section for amazing discounts on selected dishes! These rotate weekly, so there's always something new to try at a great price! 🔥",
   help: "I can help you with:\n• Menu & dishes\n• Placing orders\n• Making reservations\n• Loyalty points\n• Payment methods\n• Our location & hours\n• Weekly specials\n\nJust ask me anything! 😊",
   default: "I'm here to help! You can ask me about:\n• Our menu and dishes\n• How to place an order\n• Making a reservation\n• Loyalty points program\n• Payment methods\n• Our location and hours\n• Weekly specials\n\nWhat would you like to know? 🤗"
@@ -64,7 +64,7 @@ const AIHelpChat = () => {
   const [messages, setMessages] = useState<Message[]>([
     {
       id: '1',
-      text: "Hello! 👋 I'm your Savanna Kitchen assistant. How can I help you today?",
+      text: "Hello! 👋 I'm your Grabbys assistant. How can I help you today?",
       isBot: true,
       timestamp: new Date(),
     }
@@ -159,7 +159,7 @@ const AIHelpChat = () => {
                   <Bot className="h-6 w-6" />
                 </div>
                 <div>
-                  <h3 className="font-semibold">Savanna Assistant</h3>
+                  <h3 className="font-semibold">Grabbys Assistant</h3>
                   <p className="text-xs opacity-80">Always here to help</p>
                 </div>
               </div>

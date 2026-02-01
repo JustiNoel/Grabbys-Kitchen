@@ -1,6 +1,7 @@
 import { ShoppingBag, Menu, X, User, LogIn, Settings } from 'lucide-react';
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { motion } from 'framer-motion';
 import { useCart } from '@/context/CartContext';
 import { useAuth } from '@/context/AuthContext';
 import { Button } from '@/components/ui/button';
@@ -15,6 +16,13 @@ import {
 import CartSheet from './CartSheet';
 import ThemeToggle from './ThemeToggle';
 import logo from '@/assets/savanna-kitchen-logo.png';
+
+const navItems = [
+  { href: '#menu', label: '🍽️ Food', color: 'bg-primary' },
+  { href: '#groceries', label: '🥕 Grocery', color: 'bg-green-600' },
+  { href: '#shop', label: '🛒 Shop', color: 'bg-purple-600' },
+  { href: '#spirits', label: '🍾 Spirits', color: 'bg-amber-600' },
+];
 
 const Header = () => {
   const { totalItems } = useCart();
@@ -39,21 +47,31 @@ const Header = () => {
             </h1>
           </Link>
 
-          {/* Desktop Navigation */}
-          <nav className="hidden md:flex items-center gap-6">
-            <a href="#menu" className="text-foreground/80 hover:text-primary transition-colors font-medium text-sm">
-              🍽️ Food
-            </a>
-            <a href="#groceries" className="text-foreground/80 hover:text-primary transition-colors font-medium text-sm">
-              🥕 Grocery
-            </a>
-            <a href="#shop" className="text-foreground/80 hover:text-primary transition-colors font-medium text-sm">
-              🛒 Shop
-            </a>
-            <a href="#spirits" className="text-foreground/80 hover:text-primary transition-colors font-medium text-sm">
-              🍾 Spirits
-            </a>
-            <a href="#contact" className="text-foreground/80 hover:text-primary transition-colors font-medium text-sm">
+          {/* Desktop Navigation - Animated Pills */}
+          <nav className="hidden md:flex items-center gap-2">
+            {navItems.map((item, index) => (
+              <motion.a
+                key={item.href}
+                href={item.href}
+                className={`relative px-4 py-2 rounded-full text-sm font-semibold text-white ${item.color} shadow-lg hover:shadow-xl transition-shadow`}
+                initial={{ opacity: 0, y: -20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: index * 0.1, type: 'spring', stiffness: 300 }}
+                whileHover={{ scale: 1.1, y: -2 }}
+                whileTap={{ scale: 0.95 }}
+              >
+                <motion.span
+                  className="block"
+                  animate={{ 
+                    textShadow: ['0 0 0px rgba(255,255,255,0)', '0 0 10px rgba(255,255,255,0.5)', '0 0 0px rgba(255,255,255,0)']
+                  }}
+                  transition={{ duration: 2, repeat: Infinity, delay: index * 0.3 }}
+                >
+                  {item.label}
+                </motion.span>
+              </motion.a>
+            ))}
+            <a href="#contact" className="text-foreground/80 hover:text-primary transition-colors font-medium text-sm ml-2">
               Contact
             </a>
           </nav>
@@ -124,32 +142,29 @@ const Header = () => {
 
         {/* Mobile Navigation */}
         {mobileMenuOpen && (
-          <nav className="md:hidden py-4 border-t border-border">
-            <div className="flex flex-col gap-4">
-              <a
-                href="#menu"
-                className="text-foreground/80 hover:text-primary transition-colors font-medium"
-                onClick={() => setMobileMenuOpen(false)}
-              >
-                Menu
-              </a>
-              <a
-                href="#reviews"
-                className="text-foreground/80 hover:text-primary transition-colors font-medium"
-                onClick={() => setMobileMenuOpen(false)}
-              >
-                Reviews
-              </a>
-              <a
-                href="#reservations"
-                className="text-foreground/80 hover:text-primary transition-colors font-medium"
-                onClick={() => setMobileMenuOpen(false)}
-              >
-                Reservations
-              </a>
+          <motion.nav 
+            className="md:hidden py-4 border-t border-border"
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: 'auto' }}
+            exit={{ opacity: 0, height: 0 }}
+          >
+            <div className="flex flex-col gap-3">
+              {navItems.map((item, index) => (
+                <motion.a
+                  key={item.href}
+                  href={item.href}
+                  className={`${item.color} text-white px-4 py-3 rounded-xl font-semibold text-center shadow-md`}
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: index * 0.1 }}
+                  onClick={() => setMobileMenuOpen(false)}
+                >
+                  {item.label}
+                </motion.a>
+              ))}
               <a
                 href="#contact"
-                className="text-foreground/80 hover:text-primary transition-colors font-medium"
+                className="text-foreground/80 hover:text-primary transition-colors font-medium text-center py-2"
                 onClick={() => setMobileMenuOpen(false)}
               >
                 Contact
@@ -158,7 +173,7 @@ const Header = () => {
                 <>
                   <Link
                     to="/profile"
-                    className="text-foreground/80 hover:text-primary transition-colors font-medium"
+                    className="text-foreground/80 hover:text-primary transition-colors font-medium text-center py-2"
                     onClick={() => setMobileMenuOpen(false)}
                   >
                     My Account
@@ -166,7 +181,7 @@ const Header = () => {
                   {isAdmin && (
                     <Link
                       to="/admin"
-                      className="text-foreground/80 hover:text-primary transition-colors font-medium"
+                      className="text-foreground/80 hover:text-primary transition-colors font-medium text-center py-2"
                       onClick={() => setMobileMenuOpen(false)}
                     >
                       Admin Panel
@@ -175,7 +190,7 @@ const Header = () => {
                 </>
               )}
             </div>
-          </nav>
+          </motion.nav>
         )}
       </div>
     </header>

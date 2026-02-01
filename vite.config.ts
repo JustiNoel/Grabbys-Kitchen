@@ -17,9 +17,9 @@ export default defineConfig(({ mode }) => ({
       registerType: "autoUpdate",
       includeAssets: ["favicon.ico", "apple-touch-icon.png", "icons/icon-192x192.png", "icons/icon-512x512.png"],
       manifest: {
-        name: "Savanna Kitchen - Authentic Kenyan Cuisine",
-        short_name: "Savanna Kitchen",
-        description: "Experience the finest Kenyan and African cuisine. Order delicious traditional dishes online.",
+        name: "Grabbys - Food, Grocery, Shop & Spirits",
+        short_name: "Grabbys",
+        description: "Your one-stop destination for delicious food, fresh groceries, everyday essentials, and premium spirits.",
         theme_color: "#C45E2E",
         background_color: "#1A1A1A",
         display: "standalone",
