@@ -15,7 +15,7 @@ import {
 } from '@/components/ui/dropdown-menu';
 import CartSheet from './CartSheet';
 import ThemeToggle from './ThemeToggle';
-import logo from '@/assets/savanna-kitchen-logo.png';
+// Use Grabbys logo from public folder (matches favicon)
 
 const navItems = [
   { href: '#menu', label: '🍽️ Food', color: 'bg-primary' },
@@ -41,7 +41,7 @@ const Header = () => {
         <div className="flex items-center justify-between h-16 md:h-20">
           {/* Logo */}
           <Link to="/" className="flex items-center gap-2">
-            <img src={logo} alt="Grabbys" className="h-10 w-10 md:h-12 md:w-12 object-contain" />
+            <img src="/grabbys-logo.png" alt="Grabbys" className="h-10 w-10 md:h-12 md:w-12 object-contain" />
             <h1 className="font-display text-xl md:text-2xl font-bold text-foreground">
               <span className="text-primary">Grabbys</span>
             </h1>
