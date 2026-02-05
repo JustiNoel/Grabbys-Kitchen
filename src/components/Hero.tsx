@@ -1,11 +1,75 @@
 import { motion } from 'framer-motion';
-import { ArrowDown } from 'lucide-react';
+import { UtensilsCrossed, ShoppingBasket, Store, Wine, Plus, Calendar } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { Card, CardContent } from '@/components/ui/card';
+import { useAuth } from '@/context/AuthContext';
+import { useNavigate } from 'react-router-dom';
 import kitchenVideo from '@/assets/kitchen-background.mp4';
 
+interface CategoryCard {
+  id: string;
+  name: string;
+  icon: React.ReactNode;
+  emoji: string;
+  description: string;
+  href: string;
+  color: string;
+  bgGradient: string;
+}
+
+const categories: CategoryCard[] = [
+  {
+    id: 'food',
+    name: 'Food',
+    icon: <UtensilsCrossed className="h-8 w-8" />,
+    emoji: '🍽️',
+    description: 'Food stuffs & Book your table',
+    href: '#menu',
+    color: 'text-orange-500',
+    bgGradient: 'from-orange-500/20 to-red-500/10',
+  },
+  {
+    id: 'grocery',
+    name: 'Grocery',
+    icon: <ShoppingBasket className="h-8 w-8" />,
+    emoji: '🥕',
+    description: 'Fresh vegetables & fruits',
+    href: '#groceries',
+    color: 'text-green-500',
+    bgGradient: 'from-green-500/20 to-emerald-500/10',
+  },
+  {
+    id: 'shop',
+    name: 'Shop',
+    icon: <Store className="h-8 w-8" />,
+    emoji: '🛒',
+    description: 'Everyday essentials',
+    href: '#shop',
+    color: 'text-purple-500',
+    bgGradient: 'from-purple-500/20 to-violet-500/10',
+  },
+  {
+    id: 'spirits',
+    name: 'Spirits',
+    icon: <Wine className="h-8 w-8" />,
+    emoji: '🍾',
+    description: 'Premium drinks & spirits',
+    href: '#spirits',
+    color: 'text-amber-500',
+    bgGradient: 'from-amber-500/20 to-yellow-500/10',
+  },
+];
+
 const Hero = () => {
+  const { isAdmin } = useAuth();
+  const navigate = useNavigate();
+
+  const handleAdminAdd = () => {
+    navigate('/admin');
+  };
+
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
+    <section className="relative min-h-screen flex flex-col items-center justify-center overflow-hidden pt-20 pb-12">
       {/* Video Background */}
       <div className="absolute inset-0 z-0">
         <video
@@ -17,156 +81,147 @@ const Hero = () => {
         >
           <source src={kitchenVideo} type="video/mp4" />
         </video>
-        {/* Dark overlay for readability */}
-        <div className="absolute inset-0 bg-gradient-to-br from-background/95 via-background/85 to-primary/20" />
+        <div className="absolute inset-0 bg-gradient-to-br from-background/95 via-background/90 to-primary/20" />
       </div>
-      
+
       {/* Decorative Elements */}
       <motion.div 
         className="absolute top-20 left-10 w-32 h-32 bg-primary/10 rounded-full blur-3xl z-10"
-        animate={{ 
-          y: [0, -20, 0],
-          scale: [1, 1.1, 1],
-        }}
-        transition={{ 
-          duration: 4,
-          repeat: Infinity,
-          ease: "easeInOut"
-        }}
+        animate={{ y: [0, -20, 0], scale: [1, 1.1, 1] }}
+        transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
       />
       <motion.div 
         className="absolute bottom-32 right-10 w-48 h-48 bg-accent/20 rounded-full blur-3xl z-10"
-        animate={{ 
-          y: [0, 20, 0],
-          scale: [1, 1.15, 1],
-        }}
-        transition={{ 
-          duration: 5,
-          repeat: Infinity,
-          ease: "easeInOut",
-          delay: 1
-        }}
-      />
-      <motion.div 
-        className="absolute top-1/3 right-1/4 w-24 h-24 bg-secondary/10 rounded-full blur-2xl z-10"
-        animate={{ 
-          x: [0, 10, 0],
-          y: [0, -10, 0],
-        }}
-        transition={{ 
-          duration: 6,
-          repeat: Infinity,
-          ease: "easeInOut",
-          delay: 2
-        }}
+        animate={{ y: [0, 20, 0], scale: [1, 1.15, 1] }}
+        transition={{ duration: 5, repeat: Infinity, ease: "easeInOut", delay: 1 }}
       />
 
-      <div className="relative z-20 container mx-auto px-4 pt-20">
-        <div className="max-w-4xl mx-auto text-center">
-          {/* Badge */}
-          <motion.div 
-            className="inline-flex items-center gap-2 px-4 py-2 bg-primary/10 backdrop-blur-sm rounded-full mb-8 border border-primary/20"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
+      <div className="relative z-20 container mx-auto px-4">
+        {/* Logo & Tagline */}
+        <div className="text-center mb-12">
+          <motion.div
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.6 }}
+            className="mb-6"
           >
-            <span className="text-sm font-medium text-primary">Authentic Kenyan Cuisine</span>
-            <span className="text-lg">🇰🇪</span>
+            <img 
+              src="/grabbys-logo.jpeg" 
+              alt="Grabbys" 
+              className="h-24 w-24 md:h-32 md:w-32 mx-auto rounded-2xl shadow-2xl object-contain"
+            />
           </motion.div>
-
-          {/* Main Heading */}
+          
           <motion.h1 
-            className="font-display text-5xl md:text-7xl lg:text-8xl font-bold mb-6 leading-tight drop-shadow-lg"
+            className="font-display text-5xl md:text-7xl font-bold mb-4 leading-tight"
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.2 }}
           >
-            Taste the
-            <motion.span 
-              className="block text-primary"
-              initial={{ opacity: 0, scale: 0.8 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.6, delay: 0.5 }}
-            >
-              Grabbys
-            </motion.span>
+            Taste the{' '}
+            <span className="text-primary">Grabbys</span>
           </motion.h1>
-
-          {/* Subheading */}
-          <motion.p 
-            className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto mb-8 leading-relaxed backdrop-blur-sm bg-background/20 rounded-lg p-4"
+          
+          <motion.p
+            className="text-lg md:text-xl text-muted-foreground max-w-lg mx-auto"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.4 }}
           >
-            Experience the rich flavors of Kenya with our traditional dishes. From smoky Nyama Choma to aromatic Pilau, every bite tells a story of African heritage.
+            Your one-stop destination for food, groceries, essentials & spirits 🇰🇪
           </motion.p>
-
-          {/* CTA Buttons */}
-          <motion.div 
-            className="flex flex-col sm:flex-row gap-4 justify-center mb-12"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.6 }}
-          >
-            <Button size="lg" className="text-lg px-8" asChild>
-              <a href="#menu">Explore Menu</a>
-            </Button>
-            <Button size="lg" variant="outline" className="text-lg px-8 backdrop-blur-sm bg-background/20">
-              Book a Table
-            </Button>
-          </motion.div>
-
-          {/* Stats */}
-          <motion.div 
-            className="grid grid-cols-3 gap-8 max-w-lg mx-auto backdrop-blur-sm bg-background/30 rounded-2xl p-6"
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.6, delay: 0.8 }}
-          >
-            <motion.div 
-              className="text-center"
-              whileHover={{ scale: 1.1 }}
-              transition={{ type: "spring", stiffness: 300 }}
-            >
-              <p className="font-display text-3xl md:text-4xl font-bold text-primary">50+</p>
-              <p className="text-sm text-muted-foreground">Dishes</p>
-            </motion.div>
-            <motion.div 
-              className="text-center"
-              whileHover={{ scale: 1.1 }}
-              transition={{ type: "spring", stiffness: 300 }}
-            >
-              <p className="font-display text-3xl md:text-4xl font-bold text-primary">15</p>
-              <p className="text-sm text-muted-foreground">Years</p>
-            </motion.div>
-            <motion.div 
-              className="text-center"
-              whileHover={{ scale: 1.1 }}
-              transition={{ type: "spring", stiffness: 300 }}
-            >
-              <p className="font-display text-3xl md:text-4xl font-bold text-primary">5K+</p>
-              <p className="text-sm text-muted-foreground">Happy Guests</p>
-            </motion.div>
-          </motion.div>
         </div>
-      </div>
 
-      {/* Scroll Indicator */}
-      <motion.div 
-        className="absolute bottom-8 left-1/2 -translate-x-1/2 z-20"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1, y: [0, 10, 0] }}
-        transition={{ 
-          opacity: { delay: 1, duration: 0.5 },
-          y: { delay: 1, duration: 1.5, repeat: Infinity }
-        }}
-      >
-        <a href="#menu" className="flex flex-col items-center gap-2 text-muted-foreground hover:text-primary transition-colors backdrop-blur-sm bg-background/30 rounded-full px-4 py-2">
-          <span className="text-sm font-medium">Scroll to Menu</span>
-          <ArrowDown className="h-5 w-5" />
-        </a>
-      </motion.div>
+        {/* Category Cards Grid */}
+        <motion.div 
+          className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6 max-w-4xl mx-auto mb-8"
+          initial={{ opacity: 0, y: 40 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.5 }}
+        >
+          {categories.map((category, index) => (
+            <motion.a
+              key={category.id}
+              href={category.href}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.6 + index * 0.1 }}
+              whileHover={{ scale: 1.05, y: -8 }}
+              whileTap={{ scale: 0.98 }}
+              className="block"
+            >
+              <Card className={`h-full border-2 hover:border-primary/50 transition-all duration-300 hover:shadow-2xl overflow-hidden bg-gradient-to-br ${category.bgGradient} backdrop-blur-sm`}>
+                <CardContent className="p-4 md:p-6 text-center">
+                  <div className={`inline-flex items-center justify-center w-16 h-16 md:w-20 md:h-20 rounded-2xl bg-background/80 shadow-lg mb-3 ${category.color}`}>
+                    <span className="text-3xl md:text-4xl">{category.emoji}</span>
+                  </div>
+                  <h3 className="font-display text-lg md:text-xl font-bold mb-1 text-foreground">
+                    {category.name}
+                  </h3>
+                  <p className="text-xs md:text-sm text-muted-foreground line-clamp-2">
+                    {category.description}
+                  </p>
+                </CardContent>
+              </Card>
+            </motion.a>
+          ))}
+        </motion.div>
+
+        {/* Book Table Button */}
+        <motion.div
+          className="flex justify-center gap-4 mb-8"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.9 }}
+        >
+          <Button size="lg" variant="outline" className="gap-2 backdrop-blur-sm bg-background/50" asChild>
+            <a href="#reservations">
+              <Calendar className="h-5 w-5" />
+              Book Your Table
+            </a>
+          </Button>
+        </motion.div>
+
+        {/* Admin Add Button - Only visible to admins */}
+        {isAdmin && (
+          <motion.div
+            className="flex justify-center"
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.5, delay: 1 }}
+          >
+            <Button
+              onClick={handleAdminAdd}
+              size="lg"
+              className="gap-2 bg-gradient-to-r from-primary to-orange-500 hover:from-primary/90 hover:to-orange-500/90 shadow-lg"
+            >
+              <Plus className="h-5 w-5" />
+              Add New Items (Admin)
+            </Button>
+          </motion.div>
+        )}
+
+        {/* Quick Stats */}
+        <motion.div 
+          className="grid grid-cols-3 gap-4 max-w-md mx-auto mt-12 backdrop-blur-sm bg-background/40 rounded-2xl p-4"
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.6, delay: 1.1 }}
+        >
+          <div className="text-center">
+            <p className="font-display text-2xl md:text-3xl font-bold text-primary">50+</p>
+            <p className="text-xs text-muted-foreground">Dishes</p>
+          </div>
+          <div className="text-center border-x border-border">
+            <p className="font-display text-2xl md:text-3xl font-bold text-primary">24/7</p>
+            <p className="text-xs text-muted-foreground">Delivery</p>
+          </div>
+          <div className="text-center">
+            <p className="font-display text-2xl md:text-3xl font-bold text-primary">5K+</p>
+            <p className="text-xs text-muted-foreground">Happy Guests</p>
+          </div>
+        </motion.div>
+      </div>
     </section>
   );
 };
