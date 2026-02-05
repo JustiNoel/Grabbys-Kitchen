@@ -150,25 +150,21 @@ const Header = () => {
           >
             <div className="flex flex-col gap-3">
               {navItems.map((item, index) => (
-                <motion.a
+                <motion.div
                   key={item.href}
-                  href={item.href}
-                  className={`${item.color} text-white px-4 py-3 rounded-xl font-semibold text-center shadow-md`}
                   initial={{ opacity: 0, x: -20 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: index * 0.1 }}
-                  onClick={() => setMobileMenuOpen(false)}
                 >
-                  {item.label}
-                </motion.a>
+                  <Link
+                    to={item.href}
+                    className={`${item.color} text-white px-4 py-3 rounded-xl font-semibold text-center shadow-md block`}
+                    onClick={() => setMobileMenuOpen(false)}
+                  >
+                    {item.label}
+                  </Link>
+                </motion.div>
               ))}
-              <a
-                href="#contact"
-                className="text-foreground/80 hover:text-primary transition-colors font-medium text-center py-2"
-                onClick={() => setMobileMenuOpen(false)}
-              >
-                Contact
-              </a>
               {user && (
                 <>
                   <Link
