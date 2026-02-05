@@ -190,27 +190,73 @@ const FinanceSection = () => {
       toast.error('Amount is required');
       return;
     }
-    createTransaction.mutate({
-      order_id: null,
-      type: transactionForm.type,
-      category: transactionForm.category,
-      amount: parseFloat(transactionForm.amount),
-      description: transactionForm.description || null,
-      payment_method: transactionForm.payment_method || null,
-      reference_number: null,
-      created_by: user?.id || null,
-    }, {
-      onSuccess: () => {
-        toast.success('Transaction recorded');
-        setTransactionDialogOpen(false);
-        setTransactionForm({
-          type: 'income',
-          category: 'sale',
-          amount: '',
-          description: '',
-          payment_method: 'cash',
-        });
-      },
+    
+    if (editingTransactionId) {
+      // Update existing transaction
+      updateTransaction.mutate({
+        id: editingTransactionId,
+        type: transactionForm.type,
+        category: transactionForm.category,
+        amount: parseFloat(transactionForm.amount),
+        description: transactionForm.description || null,
+        payment_method: transactionForm.payment_method || null,
+      }, {
+        onSuccess: () => {
+          toast.success('Transaction updated');
+          setTransactionDialogOpen(false);
+          setEditTransactionDialogOpen(false);
+          setEditingTransactionId(null);
+          setTransactionForm({
+            type: 'income',
+            category: 'sale',
+            amount: '',
+            description: '',
+            payment_method: 'cash',
+          });
+        },
+      });
+    } else {
+      // Create new transaction
+      createTransaction.mutate({
+        order_id: null,
+        type: transactionForm.type,
+        category: transactionForm.category,
+        amount: parseFloat(transactionForm.amount),
+        description: transactionForm.description || null,
+        payment_method: transactionForm.payment_method || null,
+        reference_number: null,
+        created_by: user?.id || null,
+      }, {
+        onSuccess: () => {
+          toast.success('Transaction recorded');
+          setTransactionDialogOpen(false);
+          setTransactionForm({
+            type: 'income',
+            category: 'sale',
+            amount: '',
+            description: '',
+            payment_method: 'cash',
+          });
+        },
+      });
+    }
+  };
+
+  const handleEditTransaction = (txn: any) => {
+    setTransactionForm({
+      type: txn.type,
+      category: txn.category,
+      amount: txn.amount.toString(),
+      description: txn.description || '',
+      payment_method: txn.payment_method || 'cash',
+    });
+    setEditingTransactionId(txn.id);
+    setEditTransactionDialogOpen(true);
+  };
+
+  const handleDeleteTransaction = (id: string) => {
+    deleteTransaction.mutate(id, {
+      onSuccess: () => toast.success('Transaction deleted'),
     });
   };
 
