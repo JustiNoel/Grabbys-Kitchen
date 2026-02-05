@@ -29,38 +29,10 @@ const Index = () => {
       <PushNotificationPrompt />
       <main>
         <Hero />
-        <DailyDishes />
-        <WeeklySpecials />
         <OrderTracker />
         <DeliveryTracker />
-        
-        {/* Main Navigation Tabs for Food, Grocery, Shop, Spirits */}
-        <section id="grabbys" className="py-8 bg-muted/30">
-          <div className="container mx-auto px-4">
-            <div className="text-center mb-8">
-              <h2 className="font-display text-3xl md:text-4xl font-bold mb-2">
-                Welcome to <span className="text-primary">Grabbys</span>
-              </h2>
-              <p className="text-muted-foreground">
-                Your one-stop destination for food, groceries, essentials, and spirits 🚀
-              </p>
-            </div>
-            <div className="flex flex-wrap justify-center gap-4 mb-8">
-              <a href="#menu" className="flex items-center gap-2 px-6 py-3 bg-primary text-primary-foreground rounded-full font-medium hover:bg-primary/90 transition-colors">
-                🍽️ Grabby Food
-              </a>
-              <a href="#groceries" className="flex items-center gap-2 px-6 py-3 bg-green-600 text-white rounded-full font-medium hover:bg-green-700 transition-colors">
-                🥕 Grabby Grocery
-              </a>
-              <a href="#shop" className="flex items-center gap-2 px-6 py-3 bg-purple-600 text-white rounded-full font-medium hover:bg-purple-700 transition-colors">
-                🛒 Grabby Shop
-              </a>
-              <a href="#spirits" className="flex items-center gap-2 px-6 py-3 bg-amber-600 text-white rounded-full font-medium hover:bg-amber-700 transition-colors">
-                🍾 Grabby Spirits
-              </a>
-            </div>
-          </div>
-        </section>
+        <DailyDishes />
+        <WeeklySpecials />
         
         <MenuSection />
         <GrocerySection />
