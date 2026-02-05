@@ -1,6 +1,6 @@
 import { ShoppingBag, Menu, X, User, LogIn, Settings } from 'lucide-react';
 import { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { useCart } from '@/context/CartContext';
 import { useAuth } from '@/context/AuthContext';
@@ -18,10 +18,10 @@ import ThemeToggle from './ThemeToggle';
 // Use Grabbys logo from public folder (matches favicon)
 
 const navItems = [
-  { href: '#menu', label: '🍽️ Food', color: 'bg-primary' },
-  { href: '#groceries', label: '🥕 Grocery', color: 'bg-green-600' },
-  { href: '#shop', label: '🛒 Shop', color: 'bg-purple-600' },
-  { href: '#spirits', label: '🍾 Spirits', color: 'bg-amber-600' },
+  { href: '/food', label: '🍽️ Food', color: 'bg-primary' },
+  { href: '/grocery', label: '🥕 Grocery', color: 'bg-green-600' },
+  { href: '/shop', label: '🛒 Shop', color: 'bg-purple-600' },
+  { href: '/spirits', label: '🍾 Spirits', color: 'bg-amber-600' },
 ];
 
 const Header = () => {
