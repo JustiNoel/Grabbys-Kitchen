@@ -1,9 +1,9 @@
 import { motion } from 'framer-motion';
-import { UtensilsCrossed, ShoppingBasket, Store, Wine, Plus, Calendar } from 'lucide-react';
+import { UtensilsCrossed, ShoppingBasket, Store, Wine, Plus } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { useAuth } from '@/context/AuthContext';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import kitchenVideo from '@/assets/kitchen-background.mp4';
 
 interface CategoryCard {
@@ -23,8 +23,8 @@ const categories: CategoryCard[] = [
     name: 'Food',
     icon: <UtensilsCrossed className="h-8 w-8" />,
     emoji: '🍽️',
-    description: 'Food stuffs & Book your table',
-    href: '#menu',
+    description: 'Delicious meals & Book your table',
+    href: '/food',
     color: 'text-orange-500',
     bgGradient: 'from-orange-500/20 to-red-500/10',
   },
@@ -34,7 +34,7 @@ const categories: CategoryCard[] = [
     icon: <ShoppingBasket className="h-8 w-8" />,
     emoji: '🥕',
     description: 'Fresh vegetables & fruits',
-    href: '#groceries',
+    href: '/grocery',
     color: 'text-green-500',
     bgGradient: 'from-green-500/20 to-emerald-500/10',
   },
@@ -44,7 +44,7 @@ const categories: CategoryCard[] = [
     icon: <Store className="h-8 w-8" />,
     emoji: '🛒',
     description: 'Everyday essentials',
-    href: '#shop',
+    href: '/shop',
     color: 'text-purple-500',
     bgGradient: 'from-purple-500/20 to-violet-500/10',
   },
@@ -54,7 +54,7 @@ const categories: CategoryCard[] = [
     icon: <Wine className="h-8 w-8" />,
     emoji: '🍾',
     description: 'Premium drinks & spirits',
-    href: '#spirits',
+    href: '/spirits',
     color: 'text-amber-500',
     bgGradient: 'from-amber-500/20 to-yellow-500/10',
   },
