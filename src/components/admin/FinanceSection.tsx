@@ -442,6 +442,7 @@ const FinanceSection = () => {
                     <TableHead>Payment</TableHead>
                     <TableHead>M-Pesa Code</TableHead>
                     <TableHead className="text-right">Amount</TableHead>
+                    <TableHead>Actions</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
@@ -466,11 +467,35 @@ const FinanceSection = () => {
                       <TableCell className={`text-right font-medium ${txn.type === 'income' ? 'text-green-600' : 'text-red-600'}`}>
                         {txn.type === 'income' ? '+' : '-'}{formatCurrency(txn.amount)}
                       </TableCell>
+                      <TableCell>
+                        <div className="flex gap-1">
+                          <Button size="sm" variant="outline" onClick={() => handleEditTransaction(txn)}>
+                            <Pencil className="h-3 w-3" />
+                          </Button>
+                          <AlertDialog>
+                            <AlertDialogTrigger asChild>
+                              <Button size="sm" variant="destructive">
+                                <Trash2 className="h-3 w-3" />
+                              </Button>
+                            </AlertDialogTrigger>
+                            <AlertDialogContent>
+                              <AlertDialogHeader>
+                                <AlertDialogTitle>Delete Transaction?</AlertDialogTitle>
+                                <AlertDialogDescription>This cannot be undone.</AlertDialogDescription>
+                              </AlertDialogHeader>
+                              <AlertDialogFooter>
+                                <AlertDialogCancel>Cancel</AlertDialogCancel>
+                                <AlertDialogAction onClick={() => handleDeleteTransaction(txn.id)}>Delete</AlertDialogAction>
+                              </AlertDialogFooter>
+                            </AlertDialogContent>
+                          </AlertDialog>
+                        </div>
+                      </TableCell>
                     </TableRow>
                   ))}
                   {(!transactions || transactions.length === 0) && (
                     <TableRow>
-                      <TableCell colSpan={7} className="text-center py-8 text-muted-foreground">
+                      <TableCell colSpan={8} className="text-center py-8 text-muted-foreground">
                         No transactions recorded yet
                       </TableCell>
                     </TableRow>
@@ -480,6 +505,72 @@ const FinanceSection = () => {
             </Card>
           )}
         </TabsContent>
+
+        {/* Edit Transaction Dialog */}
+        <Dialog open={editTransactionDialogOpen} onOpenChange={(open) => {
+          setEditTransactionDialogOpen(open);
+          if (!open) {
+            setEditingTransactionId(null);
+            setTransactionForm({
+              type: 'income',
+              category: 'sale',
+              amount: '',
+              description: '',
+              payment_method: 'cash',
+            });
+          }
+        }}>
+          <DialogContent>
+            <DialogHeader>
+              <DialogTitle>Edit Transaction</DialogTitle>
+            </DialogHeader>
+            <form onSubmit={handleTransactionSubmit} className="space-y-4">
+              <div className="grid grid-cols-2 gap-4">
+                <div className="space-y-2">
+                  <Label>Type</Label>
+                  <Select value={transactionForm.type} onValueChange={(v: 'income' | 'expense' | 'refund') => setTransactionForm({ ...transactionForm, type: v })}>
+                    <SelectTrigger><SelectValue /></SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="income">Income</SelectItem>
+                      <SelectItem value="expense">Expense</SelectItem>
+                      <SelectItem value="refund">Refund</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+                <div className="space-y-2">
+                  <Label>Amount (KSh) *</Label>
+                  <Input type="number" value={transactionForm.amount} onChange={(e) => setTransactionForm({ ...transactionForm, amount: e.target.value })} required />
+                </div>
+              </div>
+              <div className="grid grid-cols-2 gap-4">
+                <div className="space-y-2">
+                  <Label>Category</Label>
+                  <Input value={transactionForm.category} onChange={(e) => setTransactionForm({ ...transactionForm, category: e.target.value })} />
+                </div>
+                <div className="space-y-2">
+                  <Label>Payment Method</Label>
+                  <Select value={transactionForm.payment_method} onValueChange={(v) => setTransactionForm({ ...transactionForm, payment_method: v })}>
+                    <SelectTrigger><SelectValue /></SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="cash">Cash</SelectItem>
+                      <SelectItem value="mpesa">M-Pesa</SelectItem>
+                      <SelectItem value="card">Card</SelectItem>
+                      <SelectItem value="bank">Bank Transfer</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+              </div>
+              <div className="space-y-2">
+                <Label>Description</Label>
+                <Textarea value={transactionForm.description} onChange={(e) => setTransactionForm({ ...transactionForm, description: e.target.value })} />
+              </div>
+              <Button type="submit" className="w-full" disabled={updateTransaction.isPending}>
+                {updateTransaction.isPending && <Loader2 className="h-4 w-4 animate-spin mr-2" />}
+                Update Transaction
+              </Button>
+            </form>
+          </DialogContent>
+        </Dialog>
 
         {/* Invoices Tab */}
         <TabsContent value="invoices" className="space-y-4">
