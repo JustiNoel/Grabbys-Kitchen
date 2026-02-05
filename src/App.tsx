@@ -12,6 +12,10 @@ import Profile from "./pages/Profile";
 import Admin from "./pages/Admin";
 import Rider from "./pages/Rider";
 import ResetPassword from "./pages/ResetPassword";
+import Food from "./pages/Food";
+import Grocery from "./pages/Grocery";
+import Shop from "./pages/Shop";
+import Spirits from "./pages/Spirits";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -27,6 +31,10 @@ const App = () => (
             <BrowserRouter>
               <Routes>
                 <Route path="/" element={<Index />} />
+                <Route path="/food" element={<Food />} />
+                <Route path="/grocery" element={<Grocery />} />
+                <Route path="/shop" element={<Shop />} />
+                <Route path="/spirits" element={<Spirits />} />
                 <Route path="/auth" element={<Auth />} />
                 <Route path="/profile" element={<Profile />} />
                 <Route path="/admin" element={<Admin />} />

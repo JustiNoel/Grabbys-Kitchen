@@ -1,9 +1,9 @@
 import { motion } from 'framer-motion';
-import { UtensilsCrossed, ShoppingBasket, Store, Wine, Plus, Calendar } from 'lucide-react';
+import { UtensilsCrossed, ShoppingBasket, Store, Wine, Plus } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { useAuth } from '@/context/AuthContext';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import kitchenVideo from '@/assets/kitchen-background.mp4';
 
 interface CategoryCard {
@@ -23,8 +23,8 @@ const categories: CategoryCard[] = [
     name: 'Food',
     icon: <UtensilsCrossed className="h-8 w-8" />,
     emoji: '🍽️',
-    description: 'Food stuffs & Book your table',
-    href: '#menu',
+    description: 'Delicious meals & Book your table',
+    href: '/food',
     color: 'text-orange-500',
     bgGradient: 'from-orange-500/20 to-red-500/10',
   },
@@ -34,7 +34,7 @@ const categories: CategoryCard[] = [
     icon: <ShoppingBasket className="h-8 w-8" />,
     emoji: '🥕',
     description: 'Fresh vegetables & fruits',
-    href: '#groceries',
+    href: '/grocery',
     color: 'text-green-500',
     bgGradient: 'from-green-500/20 to-emerald-500/10',
   },
@@ -44,7 +44,7 @@ const categories: CategoryCard[] = [
     icon: <Store className="h-8 w-8" />,
     emoji: '🛒',
     description: 'Everyday essentials',
-    href: '#shop',
+    href: '/shop',
     color: 'text-purple-500',
     bgGradient: 'from-purple-500/20 to-violet-500/10',
   },
@@ -54,7 +54,7 @@ const categories: CategoryCard[] = [
     icon: <Wine className="h-8 w-8" />,
     emoji: '🍾',
     description: 'Premium drinks & spirits',
-    href: '#spirits',
+    href: '/spirits',
     color: 'text-amber-500',
     bgGradient: 'from-amber-500/20 to-yellow-500/10',
   },
@@ -140,46 +140,31 @@ const Hero = () => {
           transition={{ duration: 0.6, delay: 0.5 }}
         >
           {categories.map((category, index) => (
-            <motion.a
+            <motion.div
               key={category.id}
-              href={category.href}
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.6 + index * 0.1 }}
               whileHover={{ scale: 1.05, y: -8 }}
               whileTap={{ scale: 0.98 }}
-              className="block"
             >
-              <Card className={`h-full border-2 hover:border-primary/50 transition-all duration-300 hover:shadow-2xl overflow-hidden bg-gradient-to-br ${category.bgGradient} backdrop-blur-sm`}>
-                <CardContent className="p-4 md:p-6 text-center">
-                  <div className={`inline-flex items-center justify-center w-16 h-16 md:w-20 md:h-20 rounded-2xl bg-background/80 shadow-lg mb-3 ${category.color}`}>
-                    <span className="text-3xl md:text-4xl">{category.emoji}</span>
-                  </div>
-                  <h3 className="font-display text-lg md:text-xl font-bold mb-1 text-foreground">
-                    {category.name}
-                  </h3>
-                  <p className="text-xs md:text-sm text-muted-foreground line-clamp-2">
-                    {category.description}
-                  </p>
-                </CardContent>
-              </Card>
-            </motion.a>
+              <Link to={category.href} className="block h-full">
+                <Card className={`h-full border-2 hover:border-primary/50 transition-all duration-300 hover:shadow-2xl overflow-hidden bg-gradient-to-br ${category.bgGradient} backdrop-blur-sm`}>
+                  <CardContent className="p-4 md:p-6 text-center">
+                    <div className={`inline-flex items-center justify-center w-16 h-16 md:w-20 md:h-20 rounded-2xl bg-background/80 shadow-lg mb-3 ${category.color}`}>
+                      <span className="text-3xl md:text-4xl">{category.emoji}</span>
+                    </div>
+                    <h3 className="font-display text-lg md:text-xl font-bold mb-1 text-foreground">
+                      {category.name}
+                    </h3>
+                    <p className="text-xs md:text-sm text-muted-foreground line-clamp-2">
+                      {category.description}
+                    </p>
+                  </CardContent>
+                </Card>
+              </Link>
+            </motion.div>
           ))}
-        </motion.div>
-
-        {/* Book Table Button */}
-        <motion.div
-          className="flex justify-center gap-4 mb-8"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.9 }}
-        >
-          <Button size="lg" variant="outline" className="gap-2 backdrop-blur-sm bg-background/50" asChild>
-            <a href="#reservations">
-              <Calendar className="h-5 w-5" />
-              Book Your Table
-            </a>
-          </Button>
         </motion.div>
 
         {/* Admin Add Button - Only visible to admins */}
