@@ -1762,7 +1762,7 @@ const Admin = () => {
                             </div>
                             <p className="font-bold text-lg">KSh {order.total_amount.toLocaleString()}</p>
                             {transactionCode && (
-                              <p className="text-xs text-green-600 font-mono">M-Pesa: {transactionCode}</p>
+                              <p className="text-xs text-green-600 font-mono">Ref: {transactionCode}</p>
                             )}
                           </div>
                         </div>

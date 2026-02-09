@@ -126,7 +126,7 @@ const CartSheet = () => {
         category: 'order_payment',
         amount: totalWithFee,
         description: `Order #${order.id.slice(0, 8)} - Paystack Payment`,
-        payment_method: 'mpesa',
+        payment_method: 'paystack',
         reference_number: code,
         created_by: user.id,
       });
