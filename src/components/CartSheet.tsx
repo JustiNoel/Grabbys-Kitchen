@@ -90,12 +90,12 @@ const CartSheet = () => {
           total_amount: totalWithFee,
           status: 'pending',
           payment_status: 'paid',
-          payment_method: 'mpesa',
+          payment_method: 'paystack',
           delivery_address: deliveryLocation.address,
           delivery_latitude: deliveryLocation.latitude,
           delivery_longitude: deliveryLocation.longitude,
           delivery_instructions: deliveryLocation.instructions || null,
-          notes: `M-Pesa: ${code}${deliveryLocation.phoneNumber ? ` | Phone: ${deliveryLocation.phoneNumber}` : ''}`,
+          notes: `Paystack: ${code}${deliveryLocation.phoneNumber ? ` | Phone: ${deliveryLocation.phoneNumber}` : ''}`,
           order_type: 'delivery',
         })
         .select()
@@ -125,8 +125,8 @@ const CartSheet = () => {
         type: 'income',
         category: 'order_payment',
         amount: totalWithFee,
-        description: `Order #${order.id.slice(0, 8)} - M-Pesa Payment`,
-        payment_method: 'mpesa',
+        description: `Order #${order.id.slice(0, 8)} - Paystack Payment`,
+        payment_method: 'paystack',
         reference_number: code,
         created_by: user.id,
       });

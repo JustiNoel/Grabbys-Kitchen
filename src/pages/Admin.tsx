@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { motion } from 'framer-motion';
@@ -384,6 +384,29 @@ const Admin = () => {
     },
     enabled: isAdmin,
   });
+
+  // ============ REALTIME SUBSCRIPTIONS ============
+  useEffect(() => {
+    if (!isAdmin) return;
+
+    const channel = supabase
+      .channel('admin-realtime-updates')
+      .on('postgres_changes', { event: '*', schema: 'public', table: 'orders' }, () => {
+        queryClient.invalidateQueries({ queryKey: ['admin-orders'] });
+      })
+      .on('postgres_changes', { event: '*', schema: 'public', table: 'order_items' }, () => {
+        queryClient.invalidateQueries({ queryKey: ['admin-orders'] });
+      })
+      .on('postgres_changes', { event: '*', schema: 'public', table: 'financial_transactions' }, () => {
+        queryClient.invalidateQueries({ queryKey: ['financial-transactions'] });
+        queryClient.invalidateQueries({ queryKey: ['expenses'] });
+      })
+      .subscribe();
+
+    return () => {
+      supabase.removeChannel(channel);
+    };
+  }, [isAdmin, queryClient]);
 
   // ============ MUTATIONS ============
 
@@ -1708,8 +1731,9 @@ const Admin = () => {
               <div className="grid gap-4">
                 {orders?.map((order: any) => {
                   // Extract transaction code from notes
+                  const paystackMatch = order.notes?.match(/Paystack:\s*([A-Za-z0-9_-]+)/i);
                   const mpesaMatch = order.notes?.match(/M-Pesa:\s*([A-Z0-9]+)/i);
-                  const transactionCode = mpesaMatch ? mpesaMatch[1] : null;
+                  const transactionCode = paystackMatch ? paystackMatch[1] : (mpesaMatch ? mpesaMatch[1] : null);
                   const phoneMatch = order.notes?.match(/Phone:\s*(\+?\d+)/);
                   const customerPhone = phoneMatch ? phoneMatch[1] : order.profiles?.phone;
                   
@@ -1738,15 +1762,18 @@ const Admin = () => {
                             </div>
                             <p className="font-bold text-lg">KSh {order.total_amount.toLocaleString()}</p>
                             {transactionCode && (
-                              <p className="text-xs text-green-600 font-mono">M-Pesa: {transactionCode}</p>
+                              <p className="text-xs text-green-600 font-mono">Ref: {transactionCode}</p>
                             )}
                           </div>
                         </div>
                         <div className="bg-muted/50 rounded-lg p-3">
-                          <p className="text-sm font-medium mb-2">Items:</p>
-                          <ul className="text-sm text-muted-foreground">
+                          <p className="text-sm font-medium mb-2">📦 Items Ordered:</p>
+                          <ul className="text-sm text-muted-foreground space-y-1">
                             {order.order_items?.map((item: any) => (
-                              <li key={item.id}>• {item.quantity}x {item.item_name}</li>
+                              <li key={item.id} className="flex justify-between">
+                                <span>• {item.quantity}x {item.item_name}</span>
+                                <span className="text-primary font-medium">KSh {(item.unit_price * item.quantity).toLocaleString()}</span>
+                              </li>
                             ))}
                           </ul>
                         </div>
