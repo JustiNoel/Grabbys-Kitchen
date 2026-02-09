@@ -125,7 +125,7 @@ const CartSheet = () => {
         type: 'income',
         category: 'order_payment',
         amount: totalWithFee,
-        description: `Order #${order.id.slice(0, 8)} - M-Pesa Payment`,
+        description: `Order #${order.id.slice(0, 8)} - Paystack Payment`,
         payment_method: 'mpesa',
         reference_number: code,
         created_by: user.id,
