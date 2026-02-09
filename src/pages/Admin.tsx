@@ -385,6 +385,29 @@ const Admin = () => {
     enabled: isAdmin,
   });
 
+  // ============ REALTIME SUBSCRIPTIONS ============
+  useEffect(() => {
+    if (!isAdmin) return;
+
+    const channel = supabase
+      .channel('admin-realtime-updates')
+      .on('postgres_changes', { event: '*', schema: 'public', table: 'orders' }, () => {
+        queryClient.invalidateQueries({ queryKey: ['admin-orders'] });
+      })
+      .on('postgres_changes', { event: '*', schema: 'public', table: 'order_items' }, () => {
+        queryClient.invalidateQueries({ queryKey: ['admin-orders'] });
+      })
+      .on('postgres_changes', { event: '*', schema: 'public', table: 'financial_transactions' }, () => {
+        queryClient.invalidateQueries({ queryKey: ['finance-transactions'] });
+        queryClient.invalidateQueries({ queryKey: ['finance-summary'] });
+      })
+      .subscribe();
+
+    return () => {
+      supabase.removeChannel(channel);
+    };
+  }, [isAdmin, queryClient]);
+
   // ============ MUTATIONS ============
 
   // Menu item mutations
