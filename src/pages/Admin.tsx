@@ -398,8 +398,8 @@ const Admin = () => {
         queryClient.invalidateQueries({ queryKey: ['admin-orders'] });
       })
       .on('postgres_changes', { event: '*', schema: 'public', table: 'financial_transactions' }, () => {
-        queryClient.invalidateQueries({ queryKey: ['finance-transactions'] });
-        queryClient.invalidateQueries({ queryKey: ['finance-summary'] });
+        queryClient.invalidateQueries({ queryKey: ['financial-transactions'] });
+        queryClient.invalidateQueries({ queryKey: ['expenses'] });
       })
       .subscribe();
 
