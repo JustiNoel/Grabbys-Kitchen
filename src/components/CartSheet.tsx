@@ -100,13 +100,13 @@ const CartSheet = () => {
             .from(table)
             .select('id, stock_quantity')
             .eq('name', item.name)
-            .maybeSingle();
+            .maybeSingle() as any;
           if (data && data.stock_quantity !== null) {
             const newQty = Math.max(0, data.stock_quantity - item.quantity);
             await supabase.from(table).update({
               stock_quantity: newQty,
               ...(newQty === 0 ? { is_available: false } : {}),
-            }).eq('id', data.id);
+            } as any).eq('id', data.id);
             break;
           }
         } catch {
