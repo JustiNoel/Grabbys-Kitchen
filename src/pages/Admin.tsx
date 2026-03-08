@@ -1230,6 +1230,14 @@ const Admin = () => {
                 <Package className="h-3 w-3 sm:h-4 sm:w-4" />
                 <span className="hidden xs:inline sm:inline">Inventory</span>
               </TabsTrigger>
+              <TabsTrigger value="promos" className="flex items-center gap-1 px-2 py-1.5 text-xs sm:text-sm sm:px-3">
+                <Tag className="h-3 w-3 sm:h-4 sm:w-4" />
+                <span className="hidden xs:inline sm:inline">Promos</span>
+              </TabsTrigger>
+              <TabsTrigger value="analytics" className="flex items-center gap-1 px-2 py-1.5 text-xs sm:text-sm sm:px-3">
+                <BarChart3 className="h-3 w-3 sm:h-4 sm:w-4" />
+                <span className="hidden xs:inline sm:inline">Analytics</span>
+              </TabsTrigger>
             </TabsList>
           </div>
 
