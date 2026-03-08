@@ -19,13 +19,16 @@ import { format } from 'date-fns';
 import { 
   ArrowLeft, Plus, Pencil, Trash2, Loader2, ShoppingBag, CalendarDays, 
   UtensilsCrossed, Sparkles, Trophy, Users, Lock, Eye, EyeOff, MapPin, 
-  UserPlus, Shield, Leaf, Store, Wine, Bike, Mail, Phone, DollarSign, Package
+  UserPlus, Shield, Leaf, Store, Wine, Bike, Mail, Phone, DollarSign, Package,
+  BarChart3, Tag
 } from 'lucide-react';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from '@/components/ui/alert-dialog';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import FinanceSection from '@/components/admin/FinanceSection';
 import InventoryAlerts from '@/components/InventoryAlerts';
+import AnalyticsSection from '@/components/admin/AnalyticsSection';
+import { usePromoCodes, useCreatePromoCode, useTogglePromoCode, useDeletePromoCode } from '@/hooks/usePromoCodes';
 
 interface MenuItemForm {
   name: string;
