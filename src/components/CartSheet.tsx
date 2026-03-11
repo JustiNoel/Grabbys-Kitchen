@@ -14,6 +14,7 @@ import { supabase } from '@/integrations/supabase/client';
 import LocationPicker from './LocationPicker';
 import PaymentSection from './PaymentSection';
 import PromoCodeInput from './PromoCodeInput';
+import PostOrderSurvey from './PostOrderSurvey';
 
 interface DeliveryLocation {
   address: string;
@@ -34,6 +35,8 @@ const CartSheet = () => {
   const [paymentConfirmed, setPaymentConfirmed] = useState(false);
   const [transactionCode, setTransactionCode] = useState('');
   const [orderPlaced, setOrderPlaced] = useState(false);
+  const [surveyOpen, setSurveyOpen] = useState(false);
+  const [completedOrderId, setCompletedOrderId] = useState<string | null>(null);
 
   // Promo code state
   const [promoDiscount, setPromoDiscount] = useState(0);
@@ -227,11 +230,17 @@ const CartSheet = () => {
     }
 
     setOrderPlaced(true);
+    setCompletedOrderId(orderId);
     setIsProcessing(false);
     toast.success('Order placed successfully! 🎉', {
       description: `Your order is being prepared.${pointsEarned > 0 ? ` You earned ${pointsEarned} loyalty points!` : ''}`,
       duration: 5000,
     });
+
+    // Show survey after a brief delay
+    setTimeout(() => {
+      setSurveyOpen(true);
+    }, 2000);
 
     setTimeout(() => {
       clearCart();
@@ -242,7 +251,7 @@ const CartSheet = () => {
       setPromoDiscount(0);
       setPromoId(null);
       setAppliedPromoCode(null);
-    }, 3000);
+    }, 5000);
   };
 
   if (items.length === 0) {
@@ -266,6 +275,13 @@ const CartSheet = () => {
         </div>
         <h3 className="font-display text-2xl font-bold text-green-600 mt-6 mb-2">Order Confirmed! 🎉</h3>
         <p className="text-muted-foreground text-center max-w-xs">Your order is being prepared and will be delivered soon.</p>
+        {completedOrderId && (
+          <PostOrderSurvey
+            open={surveyOpen}
+            onOpenChange={setSurveyOpen}
+            orderId={completedOrderId}
+          />
+        )}
       </div>
     );
   }

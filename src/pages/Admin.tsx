@@ -20,7 +20,7 @@ import {
   ArrowLeft, Plus, Pencil, Trash2, Loader2, ShoppingBag, CalendarDays, 
   UtensilsCrossed, Sparkles, Trophy, Users, Lock, Eye, EyeOff, MapPin, 
   UserPlus, Shield, Leaf, Store, Wine, Bike, Mail, Phone, DollarSign, Package,
-  BarChart3, Tag
+  BarChart3, Tag, ClipboardList
 } from 'lucide-react';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from '@/components/ui/alert-dialog';
@@ -28,6 +28,7 @@ import { ScrollArea } from '@/components/ui/scroll-area';
 import FinanceSection from '@/components/admin/FinanceSection';
 import InventoryAlerts from '@/components/InventoryAlerts';
 import AnalyticsSection from '@/components/admin/AnalyticsSection';
+import SurveysSection from '@/components/admin/SurveysSection';
 import { usePromoCodes, useCreatePromoCode, useTogglePromoCode, useDeletePromoCode } from '@/hooks/usePromoCodes';
 
 interface MenuItemForm {
@@ -1238,6 +1239,10 @@ const Admin = () => {
                 <BarChart3 className="h-3 w-3 sm:h-4 sm:w-4" />
                 <span className="hidden xs:inline sm:inline">Analytics</span>
               </TabsTrigger>
+              <TabsTrigger value="surveys" className="flex items-center gap-1 px-2 py-1.5 text-xs sm:text-sm sm:px-3">
+                <ClipboardList className="h-3 w-3 sm:h-4 sm:w-4" />
+                <span className="hidden xs:inline sm:inline">Surveys</span>
+              </TabsTrigger>
             </TabsList>
           </div>
 
@@ -2411,6 +2416,11 @@ const Admin = () => {
           {/* ============ ANALYTICS TAB ============ */}
           <TabsContent value="analytics" className="space-y-4">
             <AnalyticsSection />
+          </TabsContent>
+
+          {/* ============ SURVEYS TAB ============ */}
+          <TabsContent value="surveys" className="space-y-4">
+            <SurveysSection />
           </TabsContent>
         </Tabs>
       </main>
