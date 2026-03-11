@@ -1239,6 +1239,10 @@ const Admin = () => {
                 <BarChart3 className="h-3 w-3 sm:h-4 sm:w-4" />
                 <span className="hidden xs:inline sm:inline">Analytics</span>
               </TabsTrigger>
+              <TabsTrigger value="surveys" className="flex items-center gap-1 px-2 py-1.5 text-xs sm:text-sm sm:px-3">
+                <ClipboardList className="h-3 w-3 sm:h-4 sm:w-4" />
+                <span className="hidden xs:inline sm:inline">Surveys</span>
+              </TabsTrigger>
             </TabsList>
           </div>
 
