@@ -275,6 +275,13 @@ const CartSheet = () => {
         </div>
         <h3 className="font-display text-2xl font-bold text-green-600 mt-6 mb-2">Order Confirmed! 🎉</h3>
         <p className="text-muted-foreground text-center max-w-xs">Your order is being prepared and will be delivered soon.</p>
+        {completedOrderId && (
+          <PostOrderSurvey
+            open={surveyOpen}
+            onOpenChange={setSurveyOpen}
+            orderId={completedOrderId}
+          />
+        )}
       </div>
     );
   }
