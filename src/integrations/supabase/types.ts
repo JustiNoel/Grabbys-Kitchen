@@ -739,6 +739,87 @@ export type Database = {
         }
         Relationships: []
       }
+      survey_answers: {
+        Row: {
+          created_at: string
+          id: string
+          question_id: string
+          rating_value: number | null
+          survey_response_id: string
+          text_value: string | null
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          question_id: string
+          rating_value?: number | null
+          survey_response_id: string
+          text_value?: string | null
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          question_id?: string
+          rating_value?: number | null
+          survey_response_id?: string
+          text_value?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "survey_answers_question_id_fkey"
+            columns: ["question_id"]
+            isOneToOne: false
+            referencedRelation: "survey_questions"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "survey_answers_survey_response_id_fkey"
+            columns: ["survey_response_id"]
+            isOneToOne: false
+            referencedRelation: "survey_responses"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      survey_questions: {
+        Row: {
+          created_at: string
+          id: string
+          is_active: boolean
+          label: string
+          max_value: number | null
+          min_value: number | null
+          question_key: string
+          question_type: string
+          sort_order: number
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          is_active?: boolean
+          label: string
+          max_value?: number | null
+          min_value?: number | null
+          question_key: string
+          question_type?: string
+          sort_order?: number
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          is_active?: boolean
+          label?: string
+          max_value?: number | null
+          min_value?: number | null
+          question_key?: string
+          question_type?: string
+          sort_order?: number
+          updated_at?: string
+        }
+        Relationships: []
+      }
       survey_responses: {
         Row: {
           created_at: string
