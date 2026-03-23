@@ -1,4 +1,4 @@
-import { MapPin, Phone, Clock, Mail, Facebook, Instagram } from 'lucide-react';
+import { MapPin, Phone, Clock, Mail, Facebook, Instagram, MessageCircle } from 'lucide-react';
 // Use Grabbys logo from public folder (matches favicon)
 
 const Footer = () => {
