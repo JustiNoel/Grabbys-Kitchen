@@ -2291,6 +2291,81 @@ const Admin = () => {
                 ))}
               </div>
             )}
+
+            {/* Password Reset Section */}
+            <Card className="border-2 border-dashed border-primary/30">
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <Lock className="h-5 w-5 text-primary" />
+                  Reset User Password
+                </CardTitle>
+                <CardDescription>Reset the password for any registered user who has forgotten their passcode.</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4 items-end">
+                  <div className="space-y-2">
+                    <Label>User Email</Label>
+                    <Input 
+                      type="email" 
+                      value={resetEmail} 
+                      onChange={(e) => setResetEmail(e.target.value)} 
+                      placeholder="user@email.com" 
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <Label>New Password</Label>
+                    <div className="relative">
+                      <Input 
+                        type={showResetPassword ? 'text' : 'password'} 
+                        value={resetNewPassword} 
+                        onChange={(e) => setResetNewPassword(e.target.value)} 
+                        placeholder="Min 6 characters" 
+                      />
+                      <Button
+                        type="button"
+                        variant="ghost"
+                        size="icon"
+                        className="absolute right-0 top-0 h-full px-3"
+                        onClick={() => setShowResetPassword(!showResetPassword)}
+                      >
+                        {showResetPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                      </Button>
+                    </div>
+                  </div>
+                  <Button 
+                    onClick={async () => {
+                      if (!resetEmail || !resetNewPassword) {
+                        toast.error('Enter both email and new password');
+                        return;
+                      }
+                      if (resetNewPassword.length < 6) {
+                        toast.error('Password must be at least 6 characters');
+                        return;
+                      }
+                      setIsResettingPassword(true);
+                      try {
+                        const { data, error } = await supabase.functions.invoke('admin-reset-password', {
+                          body: { email: resetEmail, newPassword: resetNewPassword },
+                        });
+                        if (error) throw error;
+                        if (data?.error) throw new Error(data.error);
+                        toast.success(`Password reset successfully for ${resetEmail}`);
+                        setResetEmail('');
+                        setResetNewPassword('');
+                      } catch (err: any) {
+                        toast.error(err.message || 'Failed to reset password');
+                      } finally {
+                        setIsResettingPassword(false);
+                      }
+                    }}
+                    disabled={isResettingPassword || !resetEmail || !resetNewPassword}
+                  >
+                    {isResettingPassword ? <Loader2 className="h-4 w-4 animate-spin mr-2" /> : <Lock className="h-4 w-4 mr-2" />}
+                    Reset Password
+                  </Button>
+                </div>
+              </CardContent>
+            </Card>
           </TabsContent>
 
           {/* ============ FINANCE TAB ============ */}
