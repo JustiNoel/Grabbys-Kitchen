@@ -407,6 +407,13 @@ const Admin = () => {
     enabled: isAdmin,
   });
 
+  // Log admin access
+  useEffect(() => {
+    if (isAdmin && user) {
+      logAuditEvent(user.id, user.email || null, 'admin_access', { is_admin: true });
+    }
+  }, [isAdmin, user]);
+
   // ============ REALTIME SUBSCRIPTIONS ============
   useEffect(() => {
     if (!isAdmin) return;
