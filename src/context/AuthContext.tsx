@@ -107,6 +107,9 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   };
 
   const signOut = async () => {
+    if (user) {
+      logAuditEvent(user.id, user.email || null, 'logout');
+    }
     await supabase.auth.signOut();
     setIsAdmin(false);
   };
