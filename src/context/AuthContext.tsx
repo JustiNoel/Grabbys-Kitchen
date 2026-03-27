@@ -1,6 +1,7 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { User, Session } from '@supabase/supabase-js';
 import { supabase } from '@/integrations/supabase/client';
+import { logAuditEvent } from '@/hooks/useAuditLog';
 
 interface AuthContextType {
   user: User | null;
@@ -48,6 +49,14 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         setUser(session?.user ?? null);
         setLoading(false);
         
+        // Log auth events
+        if (session?.user && (event === 'SIGNED_IN')) {
+          logAuditEvent(session.user.id, session.user.email || null, 'login');
+        }
+        if (event === 'SIGNED_OUT') {
+          // user is already null
+        }
+        
         // Check admin role in a deferred manner
         if (session?.user) {
           setTimeout(() => {
@@ -76,7 +85,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const signUp = async (email: string, password: string, fullName: string) => {
     const redirectUrl = `${window.location.origin}/`;
     
-    const { error } = await supabase.auth.signUp({
+    const { data, error } = await supabase.auth.signUp({
       email,
       password,
       options: {
@@ -86,6 +95,9 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         },
       },
     });
+    if (!error && data.user) {
+      logAuditEvent(data.user.id, email, 'signup');
+    }
     return { error };
   };
 
@@ -98,6 +110,9 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   };
 
   const signOut = async () => {
+    if (user) {
+      logAuditEvent(user.id, user.email || null, 'logout');
+    }
     await supabase.auth.signOut();
     setIsAdmin(false);
   };

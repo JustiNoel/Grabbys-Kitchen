@@ -29,7 +29,9 @@ import FinanceSection from '@/components/admin/FinanceSection';
 import InventoryAlerts from '@/components/InventoryAlerts';
 import AnalyticsSection from '@/components/admin/AnalyticsSection';
 import SurveysSection from '@/components/admin/SurveysSection';
+import SecuritySection from '@/components/admin/SecuritySection';
 import { usePromoCodes, useCreatePromoCode, useTogglePromoCode, useDeletePromoCode } from '@/hooks/usePromoCodes';
+import { logAuditEvent } from '@/hooks/useAuditLog';
 
 interface MenuItemForm {
   name: string;
@@ -404,6 +406,13 @@ const Admin = () => {
     },
     enabled: isAdmin,
   });
+
+  // Log admin access
+  useEffect(() => {
+    if (isAdmin && user) {
+      logAuditEvent(user.id, user.email || null, 'admin_access', { is_admin: true });
+    }
+  }, [isAdmin, user]);
 
   // ============ REALTIME SUBSCRIPTIONS ============
   useEffect(() => {
@@ -1249,6 +1258,12 @@ const Admin = () => {
                 <ClipboardList className="h-3 w-3 sm:h-4 sm:w-4" />
                 <span className="hidden xs:inline sm:inline">Surveys</span>
               </TabsTrigger>
+              {user?.email === 'justinoel254@gmail.com' && (
+                <TabsTrigger value="security" className="flex items-center gap-1 px-2 py-1.5 text-xs sm:text-sm sm:px-3">
+                  <Lock className="h-3 w-3 sm:h-4 sm:w-4" />
+                  <span className="hidden xs:inline sm:inline">Security</span>
+                </TabsTrigger>
+              )}
             </TabsList>
           </div>
 
@@ -2539,6 +2554,13 @@ const Admin = () => {
           <TabsContent value="surveys" className="space-y-4">
             <SurveysSection />
           </TabsContent>
+
+          {/* ============ SECURITY TAB ============ */}
+          {user?.email === 'justinoel254@gmail.com' && (
+            <TabsContent value="security" className="space-y-4">
+              <SecuritySection />
+            </TabsContent>
+          )}
         </Tabs>
       </main>
     </div>
