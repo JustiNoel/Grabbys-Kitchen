@@ -22,6 +22,7 @@ interface AuditLog {
 }
 
 const SecuritySection = () => {
+  const [terminatingSession, setTerminatingSession] = useState(false);
   const { data: logs, refetch } = useQuery({
     queryKey: ['audit-logs'],
     queryFn: async () => {
