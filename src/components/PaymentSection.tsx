@@ -4,9 +4,11 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { CheckCircle2, CreditCard, Loader2, AlertCircle, ShieldCheck } from 'lucide-react';
+import { CheckCircle2, CreditCard, Loader2, AlertCircle, ShieldCheck, Wrench } from 'lucide-react';
 import { toast } from 'sonner';
 import { supabase } from '@/integrations/supabase/client';
+import { MAINTENANCE_MODE, MAINTENANCE_MESSAGE } from '@/lib/maintenance';
+import { useAuth } from '@/context/AuthContext';
 
 interface PaymentSectionProps {
   totalAmount: number;
@@ -16,6 +18,8 @@ interface PaymentSectionProps {
 }
 
 const PaymentSection = ({ totalAmount, onPaymentConfirmed, isConfirmed, phoneNumber }: PaymentSectionProps) => {
+  const { isAdmin } = useAuth();
+  const maintenanceLocked = MAINTENANCE_MODE && !isAdmin;
   const [email, setEmail] = useState('');
   const [isProcessing, setIsProcessing] = useState(false);
   const [isVerifying, setIsVerifying] = useState(false);
