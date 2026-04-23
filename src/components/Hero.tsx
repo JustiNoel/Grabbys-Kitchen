@@ -138,7 +138,7 @@ const Hero = () => {
           </motion.p>
         </div>
 
-        {/* Category Cards Grid */}
+        {/* Category Cards Grid (default 4) */}
         <motion.div 
           data-tour="hero-categories"
           className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6 max-w-4xl mx-auto mb-8"
@@ -184,6 +184,10 @@ const Hero = () => {
             </motion.div>
           ))}
         </motion.div>
+
+        {/* Custom admin-created categories */}
+        <CustomCategoriesRow />
+
 
         {/* Admin Add Button - Only visible to admins */}
         {isAdmin && (
