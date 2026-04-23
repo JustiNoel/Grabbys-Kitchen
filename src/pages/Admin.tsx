@@ -1273,6 +1273,10 @@ const Admin = () => {
               </TabsTrigger>
               {user?.email === 'justinoel254@gmail.com' && (
                 <>
+                  <TabsTrigger value="categories" className="flex items-center gap-1 px-2 py-1.5 text-xs sm:text-sm sm:px-3">
+                    <LayoutGrid className="h-3 w-3 sm:h-4 sm:w-4" />
+                    <span className="hidden xs:inline sm:inline">Categories</span>
+                  </TabsTrigger>
                   <TabsTrigger value="branches" className="flex items-center gap-1 px-2 py-1.5 text-xs sm:text-sm sm:px-3">
                     <GraduationCap className="h-3 w-3 sm:h-4 sm:w-4" />
                     <span className="hidden xs:inline sm:inline">Branches</span>
@@ -2578,9 +2582,12 @@ const Admin = () => {
             <SurveysSection />
           </TabsContent>
 
-          {/* ============ BRANCHES / MANAGERS / SECURITY (super-admin only) ============ */}
+          {/* ============ CATEGORIES / BRANCHES / MANAGERS / SECURITY (super-admin only) ============ */}
           {user?.email === 'justinoel254@gmail.com' && (
             <>
+              <TabsContent value="categories" className="space-y-4">
+                <CategoriesSection />
+              </TabsContent>
               <TabsContent value="branches" className="space-y-4">
                 <BranchesSection />
               </TabsContent>
