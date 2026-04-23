@@ -9,6 +9,8 @@ import categoryFood from '@/assets/category-food.jpg';
 import categoryGrocery from '@/assets/category-grocery.jpg';
 import categoryShop from '@/assets/category-shop.jpg';
 import categorySpirits from '@/assets/category-spirits.jpg';
+import DynamicCategoryNav from './DynamicCategoryNav';
+import { useCategories } from '@/hooks/useCategories';
 
 interface CategoryCard {
   id: string;
