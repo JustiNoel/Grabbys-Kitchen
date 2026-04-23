@@ -20,7 +20,7 @@ import {
   ArrowLeft, Plus, Pencil, Trash2, Loader2, ShoppingBag, CalendarDays, 
   UtensilsCrossed, Sparkles, Trophy, Users, Lock, Eye, EyeOff, MapPin, 
   UserPlus, Shield, Leaf, Store, Wine, Bike, Mail, Phone, DollarSign, Package,
-  BarChart3, Tag, ClipboardList
+  BarChart3, Tag, ClipboardList, GraduationCap, UserCog
 } from 'lucide-react';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from '@/components/ui/alert-dialog';
@@ -30,6 +30,8 @@ import InventoryAlerts from '@/components/InventoryAlerts';
 import AnalyticsSection from '@/components/admin/AnalyticsSection';
 import SurveysSection from '@/components/admin/SurveysSection';
 import SecuritySection from '@/components/admin/SecuritySection';
+import BranchesSection from '@/components/admin/BranchesSection';
+import BranchManagersSection from '@/components/admin/BranchManagersSection';
 import { usePromoCodes, useCreatePromoCode, useTogglePromoCode, useDeletePromoCode } from '@/hooks/usePromoCodes';
 import { logAuditEvent } from '@/hooks/useAuditLog';
 
@@ -1269,10 +1271,20 @@ const Admin = () => {
                 <span className="hidden xs:inline sm:inline">Surveys</span>
               </TabsTrigger>
               {user?.email === 'justinoel254@gmail.com' && (
-                <TabsTrigger value="security" className="flex items-center gap-1 px-2 py-1.5 text-xs sm:text-sm sm:px-3">
-                  <Lock className="h-3 w-3 sm:h-4 sm:w-4" />
-                  <span className="hidden xs:inline sm:inline">Security</span>
-                </TabsTrigger>
+                <>
+                  <TabsTrigger value="branches" className="flex items-center gap-1 px-2 py-1.5 text-xs sm:text-sm sm:px-3">
+                    <GraduationCap className="h-3 w-3 sm:h-4 sm:w-4" />
+                    <span className="hidden xs:inline sm:inline">Branches</span>
+                  </TabsTrigger>
+                  <TabsTrigger value="branch-managers" className="flex items-center gap-1 px-2 py-1.5 text-xs sm:text-sm sm:px-3">
+                    <UserCog className="h-3 w-3 sm:h-4 sm:w-4" />
+                    <span className="hidden xs:inline sm:inline">Managers</span>
+                  </TabsTrigger>
+                  <TabsTrigger value="security" className="flex items-center gap-1 px-2 py-1.5 text-xs sm:text-sm sm:px-3">
+                    <Lock className="h-3 w-3 sm:h-4 sm:w-4" />
+                    <span className="hidden xs:inline sm:inline">Security</span>
+                  </TabsTrigger>
+                </>
               )}
             </TabsList>
           </div>
@@ -2565,11 +2577,19 @@ const Admin = () => {
             <SurveysSection />
           </TabsContent>
 
-          {/* ============ SECURITY TAB ============ */}
+          {/* ============ BRANCHES / MANAGERS / SECURITY (super-admin only) ============ */}
           {user?.email === 'justinoel254@gmail.com' && (
-            <TabsContent value="security" className="space-y-4">
-              <SecuritySection />
-            </TabsContent>
+            <>
+              <TabsContent value="branches" className="space-y-4">
+                <BranchesSection />
+              </TabsContent>
+              <TabsContent value="branch-managers" className="space-y-4">
+                <BranchManagersSection />
+              </TabsContent>
+              <TabsContent value="security" className="space-y-4">
+                <SecuritySection />
+              </TabsContent>
+            </>
           )}
         </Tabs>
       </main>
