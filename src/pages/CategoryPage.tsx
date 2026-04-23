@@ -79,9 +79,6 @@ const CategoryPage = () => {
       price: Number(item.price),
       category: category?.slug || 'misc',
       ingredients: item.ingredients || [],
-      isPopular: item.is_popular || false,
-      isVegetarian: item.is_vegetarian || false,
-      spiceLevel: item.spice_level || 0,
     });
     toast.success(`${item.name} added to cart`);
   };
