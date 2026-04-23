@@ -1269,10 +1269,20 @@ const Admin = () => {
                 <span className="hidden xs:inline sm:inline">Surveys</span>
               </TabsTrigger>
               {user?.email === 'justinoel254@gmail.com' && (
-                <TabsTrigger value="security" className="flex items-center gap-1 px-2 py-1.5 text-xs sm:text-sm sm:px-3">
-                  <Lock className="h-3 w-3 sm:h-4 sm:w-4" />
-                  <span className="hidden xs:inline sm:inline">Security</span>
-                </TabsTrigger>
+                <>
+                  <TabsTrigger value="branches" className="flex items-center gap-1 px-2 py-1.5 text-xs sm:text-sm sm:px-3">
+                    <GraduationCap className="h-3 w-3 sm:h-4 sm:w-4" />
+                    <span className="hidden xs:inline sm:inline">Branches</span>
+                  </TabsTrigger>
+                  <TabsTrigger value="branch-managers" className="flex items-center gap-1 px-2 py-1.5 text-xs sm:text-sm sm:px-3">
+                    <UserCog className="h-3 w-3 sm:h-4 sm:w-4" />
+                    <span className="hidden xs:inline sm:inline">Managers</span>
+                  </TabsTrigger>
+                  <TabsTrigger value="security" className="flex items-center gap-1 px-2 py-1.5 text-xs sm:text-sm sm:px-3">
+                    <Lock className="h-3 w-3 sm:h-4 sm:w-4" />
+                    <span className="hidden xs:inline sm:inline">Security</span>
+                  </TabsTrigger>
+                </>
               )}
             </TabsList>
           </div>
