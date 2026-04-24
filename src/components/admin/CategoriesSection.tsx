@@ -1,7 +1,8 @@
 import { useMemo, useState } from 'react';
 import { motion } from 'framer-motion';
 import * as LucideIcons from 'lucide-react';
-import { Plus, Pencil, Trash2, Lock, Search, Loader2 } from 'lucide-react';
+import { Plus, Pencil, Trash2, Lock, Search, Loader2, Package } from 'lucide-react';
+import CategoryItemsDialog from './CategoryItemsDialog';
 import {
   Category,
   CategoryInput,
@@ -102,6 +103,7 @@ const CategoriesSection = () => {
   const [iconSearch, setIconSearch] = useState('');
   const [deleteTarget, setDeleteTarget] = useState<Category | null>(null);
   const [confirmText, setConfirmText] = useState('');
+  const [itemsCategory, setItemsCategory] = useState<Category | null>(null);
 
   const { data: existingVisibility } = useCategoryBranchVisibility(editing?.id);
 
@@ -215,33 +217,45 @@ const CategoriesSection = () => {
                   </p>
                 </div>
 
-                <div className="flex items-center justify-between pt-2 border-t">
-                  <div className="flex items-center gap-2">
-                    <Switch
-                      checked={cat.is_active}
-                      onCheckedChange={(v) =>
-                        toggleMut.mutate({ id: cat.id, is_active: v })
-                      }
-                    />
-                    <span className="text-xs text-muted-foreground">Visible</span>
-                  </div>
-                  <div className="flex gap-1">
-                    <Button size="sm" variant="ghost" onClick={() => openEdit(cat)}>
-                      <Pencil className="h-4 w-4" />
-                    </Button>
-                    {!cat.is_protected && (
-                      <Button
-                        size="sm"
-                        variant="ghost"
-                        className="text-destructive hover:text-destructive"
-                        onClick={() => {
-                          setDeleteTarget(cat);
-                          setConfirmText('');
-                        }}
-                      >
-                        <Trash2 className="h-4 w-4" />
+                <div className="space-y-2 pt-2 border-t">
+                  <Button
+                    size="sm"
+                    variant="outline"
+                    className="w-full"
+                    onClick={() => setItemsCategory(cat)}
+                    style={{ borderColor: `${cat.color}60`, color: cat.color }}
+                  >
+                    <Package className="h-4 w-4 mr-1" />
+                    Manage Items & Prices
+                  </Button>
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-2">
+                      <Switch
+                        checked={cat.is_active}
+                        onCheckedChange={(v) =>
+                          toggleMut.mutate({ id: cat.id, is_active: v })
+                        }
+                      />
+                      <span className="text-xs text-muted-foreground">Visible</span>
+                    </div>
+                    <div className="flex gap-1">
+                      <Button size="sm" variant="ghost" onClick={() => openEdit(cat)}>
+                        <Pencil className="h-4 w-4" />
                       </Button>
-                    )}
+                      {!cat.is_protected && (
+                        <Button
+                          size="sm"
+                          variant="ghost"
+                          className="text-destructive hover:text-destructive"
+                          onClick={() => {
+                            setDeleteTarget(cat);
+                            setConfirmText('');
+                          }}
+                        >
+                          <Trash2 className="h-4 w-4" />
+                        </Button>
+                      )}
+                    </div>
                   </div>
                 </div>
               </CardContent>
